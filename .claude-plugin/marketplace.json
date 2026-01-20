@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Get in flow, go ship. Autonomous dev loop plugin.",
-    "version": "5.1.0",
+    "version": "5.1.1",
     "repository": "https://github.com/marcusgoll/flowgo"
   },
   "plugins": [
@@ -14,7 +14,7 @@
       "name": "flowgo",
       "source": "./flowgo",
       "description": "Autonomous dev loop with PLAN -> BUILD -> REVIEW -> FIX -> SHIP phases",
-      "version": "5.1.0"
+      "version": "5.1.1"
     }
   ]
 }
