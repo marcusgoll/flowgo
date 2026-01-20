@@ -3,7 +3,7 @@
   "version": "5.1.0",
   "description": "Get in flow, go ship. Autonomous dev loop with PLAN \u2192 BUILD \u2192 REVIEW \u2192 FIX \u2192 SHIP phases.",
   "author": "Marcus Gollahon",
-  "repository": "https://github.com/marcusgollahon/flowgo",
+  "repository": "https://github.com/marcusgoll/flowgo",
   "keywords": ["flow", "automation", "development-loop", "shipping"],
   "license": "MIT"
 }

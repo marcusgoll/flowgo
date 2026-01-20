@@ -17,14 +17,14 @@ It prevents incomplete work, ensures code quality gates pass, and handles 16 edg
 ## Installation
 
 ```bash
-claude plugins install github:marcusgollahon/flowgo
+claude plugins install github:marcusgoll/flowgo
 ```
 
 Or clone directly:
 
 ```bash
 cd ~/.claude/plugins
-git clone https://github.com/marcusgollahon/flowgo
+git clone https://github.com/marcusgoll/flowgo
 ```
 
 ## Commands
