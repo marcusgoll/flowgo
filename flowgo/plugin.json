@@ -15,5 +15,118 @@
     "automation",
     "development-loop",
     "shipping"
-  ]
+  ],
+  "skills": {
+    "flow": {
+      "description": "Deterministic dev loop: PLAN -> BUILD -> REVIEW -> FIX -> SHIP",
+      "prompt_file": "skills/flow.md",
+      "invocable": true
+    },
+    "flow-status": {
+      "description": "Check current flow session status",
+      "prompt_file": "skills/flow-status.md",
+      "invocable": true
+    },
+    "flow-cleanup": {
+      "description": "Clean up stale temp files from flow sessions",
+      "prompt_file": "skills/flow-cleanup.md",
+      "invocable": true
+    },
+    "cancel-flow": {
+      "description": "Cancel active flow session",
+      "prompt_file": "skills/cancel-flow.md",
+      "invocable": true
+    },
+    "start-ralph": {
+      "description": "Create PRD backlog and enter Ralph mode for parallel task execution",
+      "prompt_file": "skills/start-ralph.md",
+      "invocable": true
+    },
+    "cancel-ralph": {
+      "description": "Cancel Ralph mode by completing/skipping all PRD tasks",
+      "prompt_file": "skills/cancel-ralph.md",
+      "invocable": true
+    },
+    "internal-ralph": {
+      "description": "Internal Ralph task processor (not user-invocable)",
+      "prompt_file": "skills/internal-ralph.md",
+      "invocable": false
+    }
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/stop-hook-v2.js\"",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/session-start-hook.js\"",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": {
+          "tool_name": "Edit"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/post-tool-use-hook.js\"",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "tool_name": "Write"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/post-tool-use-hook.js\"",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  },
+  "subagents": {
+    "code-simplifier": {
+      "description": "Simplifies code after BUILD phase - removes unnecessary complexity",
+      "prompt_file": "src/subagents/code-simplifier.md"
+    },
+    "verify-app": {
+      "description": "E2E verification before COMPLETE - browser or CLI testing",
+      "prompt_file": "src/subagents/verify-app.md"
+    },
+    "browser-test": {
+      "description": "Browser-based E2E testing using Claude-in-Chrome",
+      "prompt_file": "src/subagents/browser-test.md"
+    },
+    "run-verification": {
+      "description": "Background verification agent for quality checks",
+      "prompt_file": "src/subagents/run-verification.md"
+    },
+    "rlm-explorer": {
+      "description": "RLM-style codebase exploration for large repos",
+      "prompt_file": "src/subagents/rlm-explorer.md"
+    },
+    "conflict-resolver": {
+      "description": "AI-powered git merge conflict resolution",
+      "prompt_file": "src/subagents/conflict-resolver.md"
+    }
+  }
 }
