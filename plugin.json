@@ -1,0 +1,113 @@
+{
+  "name": "flowgo",
+  "version": "5.1.0",
+  "description": "Get in flow, go ship. Autonomous dev loop with 16 edge case handlers, parallel task execution (Ralph mode), and self-validating hooks.",
+  "author": "Marcus Gollahon",
+  "commands": [],
+  "skills": {
+    "flow": {
+      "description": "Get in flow, go ship. Deterministic PLAN -> BUILD -> REVIEW -> FIX -> SHIP loop with auto-triage and parallel execution.",
+      "prompt_file": "skills/flow.md",
+      "invocable": true
+    },
+    "flow-cleanup": {
+      "description": "Manually clean up stale temp files from flow sessions",
+      "prompt_file": "skills/flow-cleanup.md",
+      "invocable": true
+    },
+    "start-ralph": {
+      "description": "Create PRD backlog and enter ralph mode for autonomous task processing",
+      "prompt_file": "skills/start-ralph.md",
+      "invocable": true
+    },
+    "cancel-ralph": {
+      "description": "Cancel ralph mode by completing/skipping all PRD tasks",
+      "prompt_file": "skills/cancel-ralph.md",
+      "invocable": true
+    },
+    "cancel-flow": {
+      "description": "Cancel an active flow session",
+      "prompt_file": "skills/cancel-flow.md",
+      "invocable": true
+    },
+    "flow-status": {
+      "description": "Display current flow session status",
+      "prompt_file": "skills/flow-status.md",
+      "invocable": true
+    }
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/stop-hook-v2.js\"",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/session-start-hook.js\"",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": {
+          "tool_name": "Edit"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/post-tool-use-hook.js\"",
+            "timeout": 10000
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/post-tool-validator.js\"",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "tool_name": "Write"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/post-tool-use-hook.js\"",
+            "timeout": 10000
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/post-tool-validator.js\"",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  },
+  "subagents": {
+    "code-simplifier": {
+      "description": "Simplifies code after BUILD phase - removes complexity. Invoke via Task tool.",
+      "prompt_file": "src/subagents/code-simplifier.md"
+    },
+    "verify-app": {
+      "description": "E2E verification before COMPLETE - browser or CLI testing.",
+      "prompt_file": "src/subagents/verify-app.md"
+    },
+    "run-verification": {
+      "description": "Background verification agent for quality checks.",
+      "prompt_file": "src/subagents/run-verification.md"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "flowgo",
+  "version": "5.1.0",
+  "type": "module",
+  "description": "Get in flow, go ship. Autonomous dev loop with PLAN → BUILD → REVIEW → FIX → SHIP phases.",
+  "author": "Marcus Gollahon",
+  "license": "MIT",
+  "keywords": ["claude-code", "plugin", "flow", "automation", "shipping"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcusgollahon/flowgo"
+  }
+}
